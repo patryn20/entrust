@@ -39,7 +39,7 @@ class MigrationCommand extends Command {
     public function fire()
     {
         $roles_table = lcfirst($this->option('table'));
-        $table_prefix = $this->app['config']->get('entrust::table_prefix');
+        $table_prefix = app()['config']->get('entrust::table_prefix');
 
         $this->line('');
         $this->info( "Tables: $roles_table, assigned_roles, permissions, permission_role" );
