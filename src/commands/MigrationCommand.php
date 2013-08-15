@@ -39,6 +39,7 @@ class MigrationCommand extends Command {
     public function fire()
     {
         $roles_table = lcfirst($this->option('table'));
+        $table_prefix = $this->app['config']->get('entrust::table_prefix');
 
         $this->line('');
         $this->info( "Tables: $roles_table, assigned_roles, permissions, permission_role" );
@@ -53,7 +54,7 @@ class MigrationCommand extends Command {
             $this->line('');
 
             $this->info( "Creating migration..." );
-            if( $this->createMigration( $roles_table ) )
+            if( $this->createMigration( $roles_table , $table_prefix) )
             {
                 $this->info( "Migration successfully created!" );
             }
@@ -90,7 +91,7 @@ class MigrationCommand extends Command {
     protected function createMigration( $roles_table = 'roles' )
     {
         $migration_file = $this->laravel->path."/database/migrations/".date('Y_m_d_His')."_entrust_setup_tables.php";
-        $output = app()['view']->make('entrust::generators.migration')->with('table', $roles_table)->render();
+        $output = app()['view']->make('entrust::generators.migration')->with('table', $roles_table)->with('table_prefix', $table_prefix)->render();
 
         if( ! file_exists( $migration_file ) )
         {

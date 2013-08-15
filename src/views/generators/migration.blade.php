@@ -12,7 +12,7 @@ class EntrustSetupTables extends Migration {
     public function up()
     {
         // Creates the roles table
-        Schema::create('roles', function($table)
+        Schema::create('{{ $table_prefix }}roles', function($table)
         {
             $table->increments('id')->unsigned();
             $table->string('name')->unique();
@@ -21,7 +21,7 @@ class EntrustSetupTables extends Migration {
         });
 
         // Creates the assigned_roles (Many-to-Many relation) table
-        Schema::create('assigned_roles', function($table)
+        Schema::create('{{ $table_prefix }}assigned_roles', function($table)
         {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -31,7 +31,7 @@ class EntrustSetupTables extends Migration {
         });
 
         // Creates the permissions table
-        Schema::create('permissions', function($table)
+        Schema::create('{{ $table_prefix }}permissions', function($table)
         {
             $table->increments('id')->unsigned();
             $table->string('name');
@@ -40,7 +40,7 @@ class EntrustSetupTables extends Migration {
         });
 
         // Creates the permission_role (Many-to-Many relation) table
-        Schema::create('permission_role', function($table)
+        Schema::create('{{ $table_prefix }}permission_role', function($table)
         {
             $table->increments('id')->unsigned();
             $table->integer('permission_id')->unsigned();
@@ -57,10 +57,10 @@ class EntrustSetupTables extends Migration {
      */
     public function down()
     {
-        Schema::drop('assigned_roles');
-        Schema::drop('permission_role');
-        Schema::drop('roles');
-        Schema::drop('permissions');
+        Schema::drop('{{ $table_prefix }}assigned_roles');
+        Schema::drop('{{ $table_prefix }}permission_role');
+        Schema::drop('{{ $table_prefix }}roles');
+        Schema::drop('{{ $table_prefix }}permissions');
     }
 
 }
