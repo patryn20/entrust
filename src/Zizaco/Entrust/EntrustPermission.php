@@ -12,6 +12,8 @@ class EntrustPermission extends Ardent
      */
     protected $table = 'permissions';
 
+    protected $table_prefix = '';
+
     /**
      * Ardent validation rules
      *
@@ -22,6 +24,16 @@ class EntrustPermission extends Ardent
       'display_name' => 'required|between:4,32'
     );
 
+    public function __construct($attributes = array(), $exists = false)
+    {
+      $app = app();
+      if (!empty($app['config']->get('entrust::table_prefix'))) {
+        $this->table_prefix = $app['config']->get('entrust::table_prefix');
+        $this->table = $this->table_prefix . $this->table;
+      }
+      parent::__construct($attributes, $exists);
+    }
+
     /**
      * Before delete all constrained foreign relations
      *
@@ -31,7 +43,7 @@ class EntrustPermission extends Ardent
     public function beforeDelete( $forced = false )
     {
         try {
-            \DB::table('permission_role')->where('permission_id', $this->id)->delete();
+            \DB::table($this->table_prefix . 'permission_role')->where($this->table_prefix . 'permission_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;

@@ -12,6 +12,8 @@ class EntrustRole extends Ardent
      */
     protected $table = 'roles';
 
+    protected $table_prefix = '';
+
     /**
      * Ardent validation rules
      *
@@ -21,12 +23,23 @@ class EntrustRole extends Ardent
       'name' => 'required|between:4,16'
     );
 
+
+    public function __construct($attributes = array(), $exists = false)
+    {
+      $app = app();
+      if (!empty($app['config']->get('entrust::table_prefix'))) {
+        $this->table_prefix = $app['config']->get('entrust::table_prefix');
+        $this->table = $this->table_prefix . $this->table;
+      }
+      parent::__construct($attributes, $exists);
+    }
+
     /**
      * Many-to-Many relations with Users
      */
     public function users()
     {
-        return $this->belongsToMany('User', 'assigned_roles');
+        return $this->belongsToMany('User', $this->table_prefix . 'assigned_roles');
     }
 
     /**
@@ -74,8 +87,8 @@ class EntrustRole extends Ardent
     public function beforeDelete( $forced = false )
     {
         try {
-            \DB::table('assigned_roles')->where('role_id', $this->id)->delete();
-            \DB::table('permission_role')->where('role_id', $this->id)->delete();
+            \DB::table($this->table_prefix . 'assigned_roles')->where($this->table_prefix . 'role_id', $this->id)->delete();
+            \DB::table($this->table_prefix . 'permission_role')->where($this->table_prefix . 'role_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;
