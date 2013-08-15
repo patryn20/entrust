@@ -24,10 +24,10 @@ class EntrustSetupTables extends Migration {
         Schema::create('{{ $table_prefix }}assigned_roles', function($table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users'); // assumes a users table
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->integer('{{ $table_prefix }}user_id')->unsigned();
+            $table->integer('{{ $table_prefix }}role_id')->unsigned();
+            $table->foreign('{{ $table_prefix }}user_id')->references('id')->on('{{ $table_prefix }}users'); // assumes a users table
+            $table->foreign('{{ $table_prefix }}role_id')->references('id')->on('{{ $table_prefix }}roles');
         });
 
         // Creates the permissions table
@@ -43,10 +43,10 @@ class EntrustSetupTables extends Migration {
         Schema::create('{{ $table_prefix }}permission_role', function($table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('permission_id')->unsigned();
-            $table->integer('role_id')->unsigned();
-            $table->foreign('permission_id')->references('id')->on('permissions'); // assumes a users table
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->integer('{{ $table_prefix }}permission_id')->unsigned();
+            $table->integer('{{ $table_prefix }}role_id')->unsigned();
+            $table->foreign('{{ $table_prefix }}permission_id')->references('id')->on('{{ $table_prefix }}permissions'); // assumes a users table
+            $table->foreign('{{ $table_prefix }}role_id')->references('id')->on('{{ $table_prefix }}roles');
         });
     }
 
