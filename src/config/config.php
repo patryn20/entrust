@@ -1,5 +1,6 @@
 <?php
 return array(
-  'table_prefix' => ''
+  'table_prefix' => '',
+  'class_prefix' => ''
 ); 
 ?>

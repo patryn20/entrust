@@ -9,7 +9,9 @@ trait HasRole
      */
     public function roles()
     {
-        return $this->belongsToMany('Role', 'assigned_roles');
+        $class_prefix = app()['config']->get('entrust::class_prefix');
+        $table_prefix = app()['config']->get('entrust::table_prefix');
+        return $this->belongsToMany($class_prefix . 'Role', $table_prefix . 'assigned_roles');
     }
 
     /**
