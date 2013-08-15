@@ -88,7 +88,7 @@ class MigrationCommand extends Command {
      * @param  string $name
      * @return bool
      */
-    protected function createMigration( $roles_table = 'roles' )
+    protected function createMigration( $roles_table = 'roles', $table_prefix = '' )
     {
         $migration_file = $this->laravel->path."/database/migrations/".date('Y_m_d_His')."_entrust_setup_tables.php";
         $output = app()['view']->make('entrust::generators.migration')->with('table', $roles_table)->with('table_prefix', $table_prefix)->render();
