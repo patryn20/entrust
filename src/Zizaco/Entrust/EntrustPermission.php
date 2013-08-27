@@ -27,8 +27,9 @@ class EntrustPermission extends Ardent
     public function __construct($attributes = array(), $exists = false)
     {
       $app = app();
-      if (!empty($app['config']->get('entrust::table_prefix'))) {
-        $this->table_prefix = $app['config']->get('entrust::table_prefix');
+      $table_prefix = $app['config']->get('entrust::table_prefix');
+      if (!empty($table_prefix)) {
+        $this->table_prefix = $table_prefix;
         $this->table = $this->table_prefix . $this->table;
       }
       parent::__construct($attributes, $exists);
