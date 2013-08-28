@@ -14,6 +14,8 @@ class EntrustRole extends Ardent
 
     protected $table_prefix = '';
 
+    protected $class_prefix = '';
+
     /**
      * Ardent validation rules
      *
@@ -28,9 +30,13 @@ class EntrustRole extends Ardent
     {
       $app = app();
       $table_prefix = $app['config']->get('entrust::table_prefix');
+      $class_prefix = $app['config']->get('entrust::class_prefix');
       if (!empty($table_prefix)) {
         $this->table_prefix = $table_prefix;
         $this->table = $this->table_prefix . $this->table;
+      }
+      if (!empty($class_prefix)) {
+        $this->class_prefix = $class_prefix;
       }
       parent::__construct($attributes, $exists);
     }
@@ -40,7 +46,7 @@ class EntrustRole extends Ardent
      */
     public function users()
     {
-        return $this->belongsToMany('User', $this->table_prefix . 'assigned_roles');
+        return $this->belongsToMany($this->class_prefix . 'User', $this->table_prefix . 'assigned_roles');
     }
 
     /**
@@ -52,7 +58,7 @@ class EntrustRole extends Ardent
         // To maintain backwards compatibility we'll catch the exception if the Permission table doesn't exist.
         // TODO remove in a future version
         try {
-            return $this->belongsToMany('Permission');
+            return $this->belongsToMany($this->class_prefix . 'Permission');
         } catch(Execption $e) {}
     }
 
