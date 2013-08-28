@@ -40,7 +40,7 @@ class EntrustSetupTables extends Migration {
         });
 
         // Creates the permission_role (Many-to-Many relation) table
-        Schema::create('{{ $table_prefix }}permission_role', function($table)
+        Schema::create('{{ $table_prefix }}permission_{{ $table_prefix }}role', function($table)
         {
             $table->increments('id')->unsigned();
             $table->integer('{{ $table_prefix }}permission_id')->unsigned();
