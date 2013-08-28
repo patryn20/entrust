@@ -95,7 +95,7 @@ class EntrustRole extends Ardent
     {
         try {
             \DB::table($this->table_prefix . 'assigned_roles')->where($this->table_prefix . 'role_id', $this->id)->delete();
-            \DB::table($this->table_prefix . 'permission_role')->where($this->table_prefix . 'role_id', $this->id)->delete();
+            \DB::table($this->table_prefix . 'permission_' . $this->table_prefix. 'role')->where($this->table_prefix . 'role_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;
