@@ -44,7 +44,7 @@ class EntrustPermission extends Ardent
     public function beforeDelete( $forced = false )
     {
         try {
-            \DB::table($this->table_prefix . 'permission_role')->where($this->table_prefix . 'permission_id', $this->id)->delete();
+            \DB::table($this->table_prefix . 'permission_' . $this->table_prefix. 'role')->where($this->table_prefix . 'permission_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;
